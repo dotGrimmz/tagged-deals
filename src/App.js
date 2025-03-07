@@ -103,7 +103,7 @@ function App() {
       </Header>
       <Content>
         <Row gutter={16} justify="space-around">
-          <Col className="intake-container" span={8}>
+          <Col className="intake-container" md={10}>
             <Flex justify="space-between">
               <Typography.Text type="primary">Payment</Typography.Text>
               <Select
@@ -182,21 +182,23 @@ function App() {
             </Button>
             <Button onClick={clearDb}>Clear DB</Button>
           </Col>
-          <Col className="intake-container" span={12}>
-            {allGames.map((game) => {
-              return (
-                <GamePanel
-                  id={game?.id}
-                  gameName={game?.name}
-                  results={game?.results}
-                  details={game?.details}
-                  daysTillExp={game?.daysTillExp}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              );
-            })}
-          </Col>
+          {allGames.length ? (
+            <Col className="intake-container" sm={12}>
+              {allGames.map((game) => {
+                return (
+                  <GamePanel
+                    id={game?.id}
+                    gameName={game?.name}
+                    results={game?.results}
+                    details={game?.details}
+                    daysTillExp={game?.daysTillExp}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Col>
+          ) : null}
         </Row>
       </Content>
     </Layout>

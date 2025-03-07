@@ -43,14 +43,6 @@ export const calculateGoldMultiplier = (payment, goldOwed, gameName) => {
     WebPrices[payment]
   } gold.`;
 
-  console.log({
-    payment,
-    webGold,
-    goldOwed,
-    goldMultiplier: `${goldMultiplier}x`,
-    resultStr,
-  });
-
   return {
     payment,
     webGold,

@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { getAllGames, clearGames, saveGame } from "../data/gameService";
+import {
+  getAllGames,
+  clearGames,
+  saveGame,
+  deleteGame,
+} from "../data/gameService";
 import { calculateGoldMultiplier } from "../utils/utils";
 
 export const useTaggedApp = () => {
@@ -24,6 +29,7 @@ export const useTaggedApp = () => {
   const handleCheck = (cb) => {
     if (goldOwed < 1) {
       console.log("Add Gold Owed");
+      console.log({ goldOwed });
       cb();
       return;
     }
@@ -105,13 +111,13 @@ export const useTaggedApp = () => {
     setGameId(id);
   };
 
-  const handleDelete = () => {
-    /**
-     *  I believe I just need the Id
-     * popover asks if they are sure
-     * send the request
-     * refresh the list
-     */
+  const handleDelete = async (id) => {
+    if (!id) {
+      return;
+    }
+
+    await deleteGame(id);
+    await fetchGames();
   };
 
   return {

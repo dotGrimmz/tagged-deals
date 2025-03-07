@@ -53,6 +53,7 @@ export const saveGame = async (game) => {
   const db = await dbPromise;
   const tx = db.transaction("games", "readwrite");
   const store = tx.objectStore("games");
+  console.log({ game });
 
   if (game.id) {
     // 🔄 Update existing game (if it has an ID)
@@ -60,6 +61,7 @@ export const saveGame = async (game) => {
     console.log("Game updated:", game);
   } else {
     // 🆕 Create new game (if no ID exists)
+    delete game.id;
     const newId = await store.add({ ...game, createdAt: Date.now() });
     console.log("New game added with ID:", newId);
   }

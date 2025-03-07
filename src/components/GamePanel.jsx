@@ -1,5 +1,14 @@
 import "./GamePanel.css";
-import { Card, Row, Col, Typography, Divider, theme, Button } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  theme,
+  Button,
+  Popconfirm,
+} from "antd";
 import { calculateGoldMultiplier } from "../utils/utils";
 
 /**
@@ -37,7 +46,9 @@ export const GamePanel = ({
   handleDelete,
 }) => {
   console.log({ gameName, results, details, daysTillExp, id });
-  if (!results) return;
+  if (!results) {
+    return;
+  }
   const { token } = theme.useToken();
   const [payment, goldOwed] = Object.entries(results)[0];
   const { resultStr } = calculateGoldMultiplier(payment, goldOwed, gameName);
@@ -54,7 +65,13 @@ export const GamePanel = ({
           <Button onClick={() => handleEdit(id)} size="small">
             Edit
           </Button>
-          <Button size="small">Delete</Button>
+          <Popconfirm
+            placement="top"
+            onConfirm={() => handleDelete(id)}
+            title={`Are you sure you want to delete ${gameName}`}
+          >
+            <Button size="small">Delete</Button>
+          </Popconfirm>
         </Col>
       </Row>
     );
