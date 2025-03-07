@@ -1,0 +1,25 @@
+
+
+.intake-container {
+  /* outline: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  
+}
+
+.worth-btn {
+  cursor: pointer;
+}
+
+.input-wrapper {
+  display: flex;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.align-end{
+  display: flex;
+  align-self: flex-end;
+}

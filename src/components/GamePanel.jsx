@@ -1,0 +1,80 @@
+import "./GamePanel.css";
+import { Card, Row, Col, Typography, Divider, theme, Button } from "antd";
+import { calculateGoldMultiplier } from "../utils/utils";
+
+/**
+ *
+ * What do I want to display in the card ?
+ * Game name as title
+ *
+ * Result string
+ *
+ * Days left till exp
+ *
+ * {
+    name: "test game name",
+    results: {
+      10: 52021,
+    },
+    details: "test note",
+    daysTillExp: 30,
+  },
+
+  we will just do the result string, days till exp
+  details if any
+
+  title
+  mapped out result strings
+  notes display if any
+ */
+export const GamePanel = ({
+  gameName,
+  results,
+  details,
+  daysTillExp,
+  handleEdit,
+  id,
+  handleDelete,
+}) => {
+  console.log({ gameName, results, details, daysTillExp, id });
+  if (!results) return;
+  const { token } = theme.useToken();
+  const [payment, goldOwed] = Object.entries(results)[0];
+  const { resultStr } = calculateGoldMultiplier(payment, goldOwed, gameName);
+  const CardHeader = () => {
+    return (
+      <Row justify="space-between">
+        <Col>{gameName}</Col>
+        <Col
+          style={{
+            display: "flex",
+            gap: "2px",
+          }}
+        >
+          <Button onClick={() => handleEdit(id)} size="small">
+            Edit
+          </Button>
+          <Button size="small">Delete</Button>
+        </Col>
+      </Row>
+    );
+  };
+  return (
+    <Card title={<CardHeader />} className="custom-card">
+      <Row justify="space-between">
+        <Col>
+          <Typography.Text>{resultStr}</Typography.Text>
+        </Col>
+      </Row>
+      <Divider
+        style={{
+          marginTop: "2px",
+          marginBottom: "2px",
+          borderColor: token.colorPrimary,
+        }}
+      >
+        <Typography.Text> Days till exp: {daysTillExp}</Typography.Text>
+      </Divider>
+    </Card>
+  );
+};
