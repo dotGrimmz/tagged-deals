@@ -10,6 +10,7 @@ import {
   Popconfirm,
 } from "antd";
 import { calculateGoldMultiplier } from "../utils/utils";
+import { differenceInDays } from "date-fns";
 
 /**
  *
@@ -36,26 +37,32 @@ import { calculateGoldMultiplier } from "../utils/utils";
   mapped out result strings
   notes display if any
  */
-export const GamePanel = ({
-  gameName,
-  results,
-  details,
-  daysTillExp,
-  handleEdit,
-  id,
-  handleDelete,
-}) => {
-  console.log({ gameName, results, details, daysTillExp, id });
-  if (!results) {
+export const GamePanel = ({ handleEdit, id, handleDelete, game }) => {
+  if (!game) {
     return;
   }
+  const { name, results, details, daysTillExp, createdAt, expiryDate } = game;
+
   const { token } = theme.useToken();
+
   const [payment, goldOwed] = Object.entries(results)[0];
-  const { resultStr } = calculateGoldMultiplier(payment, goldOwed, gameName);
+  const { resultStr } = calculateGoldMultiplier(payment, goldOwed, name);
+  // const testDate = addDays(Date.now(), 8);
+  const daysLeft = differenceInDays(expiryDate, Date.now());
+  console.log({
+    name,
+    results,
+    details,
+    daysTillExp,
+    id,
+    createdAt,
+    expiryDate,
+    daysLeft,
+  });
   const CardHeader = () => {
     return (
       <Row justify="space-between">
-        <Col>{gameName}</Col>
+        <Col>{name}</Col>
         <Col
           style={{
             display: "flex",
@@ -68,7 +75,7 @@ export const GamePanel = ({
           <Popconfirm
             placement="top"
             onConfirm={() => handleDelete(id)}
-            title={`Are you sure you want to delete ${gameName}`}
+            title={`Are you sure you want to delete ${name}`}
           >
             <Button size="small">Delete</Button>
           </Popconfirm>
@@ -90,7 +97,7 @@ export const GamePanel = ({
           borderColor: token.colorPrimary,
         }}
       >
-        <Typography.Text> Days till exp: {daysTillExp}</Typography.Text>
+        <Typography.Text> Days till exp: {daysLeft}</Typography.Text>
       </Divider>
     </Card>
   );

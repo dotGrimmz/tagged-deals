@@ -1,3 +1,4 @@
+import { addDays } from "date-fns";
 export const WebPrices = {
   5: 5000,
   10: 20000,
@@ -50,4 +51,21 @@ export const calculateGoldMultiplier = (payment, goldOwed, gameName) => {
     goldMultiplier: `${goldMultiplier}x`,
     resultStr,
   };
+};
+
+/**
+ *
+ * calculate the amount of days left before offers expire
+ *  I need to take the days till exp value
+ *
+ *  add that amount of days to the createdAt Value
+ * and that will be the expiryDateTs value
+ *
+ *
+ * This needs to be formatted for a timestamp
+ * expiryDateTs = addDays(new Date.now(), game.daysTillExp).getTime()
+ */
+export const computeDaysTillExp = (createdDate, daysPending) => {
+  // moving this to the the db method
+  const expDateTs = addDays(createdDate, daysPending).getTime();
 };

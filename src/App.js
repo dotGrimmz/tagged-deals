@@ -188,10 +188,7 @@ function App() {
                 return (
                   <GamePanel
                     id={game?.id}
-                    gameName={game?.name}
-                    results={game?.results}
-                    details={game?.details}
-                    daysTillExp={game?.daysTillExp}
+                    game={game}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
                   />

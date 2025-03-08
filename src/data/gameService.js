@@ -1,4 +1,5 @@
 import dbPromise from "./idb";
+import { addDays } from "date-fns";
 
 // 📌 CREATE: Add a new game to the database
 export const addGame = async (game) => {
@@ -53,7 +54,6 @@ export const saveGame = async (game) => {
   const db = await dbPromise;
   const tx = db.transaction("games", "readwrite");
   const store = tx.objectStore("games");
-  console.log({ game });
 
   if (game.id) {
     // 🔄 Update existing game (if it has an ID)
@@ -62,7 +62,17 @@ export const saveGame = async (game) => {
   } else {
     // 🆕 Create new game (if no ID exists)
     delete game.id;
-    const newId = await store.add({ ...game, createdAt: Date.now() });
+    const currentTimestamp = Date.now();
+
+    // const expiryDateTs =
+    //   currentTimestamp + game.daysTillExp * 24 * 60 * 60 * 1000; // Calculate expiry timestamp
+
+    const expiryDateTs = addDays(currentTimestamp, game.daysTillExp).getTime();
+    const newId = await store.add({
+      ...game,
+      createdAt: currentTimestamp,
+      expiryDate: expiryDateTs,
+    });
     console.log("New game added with ID:", newId);
   }
 

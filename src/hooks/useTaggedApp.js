@@ -15,7 +15,7 @@ export const useTaggedApp = () => {
   const [gameDetails, setGameDetails] = useState("");
   const [gameId, setGameId] = useState(undefined);
   const [allGames, setAllGames] = useState([]);
-
+  console.log({ allGames });
   const fetchGames = async () => {
     const allGames = await getAllGames();
     setAllGames(allGames);
